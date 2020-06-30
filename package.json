@@ -1,0 +1,27 @@
+{
+  "name": "mattmadethese",
+  "version": "1.0.0",
+  "description": "My photo album website.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "devstart": "nodemon index.js",
+    "serverstart": "DEBUG=mattmadethese:* npm run devstart",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matthew Duffy",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "1.4.5",
+    "debug": "4.1.1",
+    "dotenv": "8.2.0",
+    "ejs": "3.1.3",
+    "express": "4.17.1",
+    "http-errors": "1.8.0",
+    "morgan": "1.10.0",
+    "pug": "3.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "2.0.4"
+  }
+}
