@@ -25,6 +25,19 @@ fsPromise.readdir(dir)
 			//console.log(path.extname(file));
 			if(/(\.jpeg|\.jpg)/.test(path.extname(file)) ) {
 				console.log(file);
+				getExifData(file)
+					.then( (exif)=>{
+						parser = exifParser.create(exif);
+						parser.enableReturnTags(true);
+						parser.enableTagNames(true);
+						parser.enablePointers(true);
+						let result = parser.parse();
+						console.log(`fsPromise parsed exif data`);
+						console.log(result);
+					})
+					.catch( (error)=>{
+						console.log(`error reading exif data? ${error}`);
+					});
 			}
 		}
 	})
@@ -32,10 +45,30 @@ fsPromise.readdir(dir)
 		console.error(`there are no files: ${err}`);
 	});
 
+
+
+let getExifData = function(file) {
+	return new Promise( (resolve, reject)=>{
+		fsPromise.readFile(file)
+			.then( (fileData)=>{
+				console.log('file data read');
+				resolve(fileData);
+			})
+			.catch( (fileDataError)=>{
+				console.log(`error: ${fileDataError}`);
+			});
+	});
+};
+
 let starfish_image1 = 'starfish-no-xmp.jpg';
 let starfish_image2 = 'starfish-no-xmp-web-export.jpg';
-filehandle = fsPromise.readFile(starfish_image2);
+let starfish_image3 = 'IMG_0691.jpg';
+
+/*
+filehandle = fsPromise.readFile(starfish_image3);
+
 if (filehandle instanceof Promise) console.log('starfish is a promise');
+
 console.log(`typeof filehandle is ${typeof filehandle}`);
 filehandle
 	.then( (data)=>{
@@ -50,10 +83,10 @@ filehandle
 	.then( (result)=>{
 		// Tagname		TagID		writable	group
 		// XPTitle		0x9c9b	int8u			IFD0, 
-		// XPComment	0x9c9c	int8u IFD0, 
-		// XPAuthor		0x9c9d	int8u IFD0, 
-		// XPKeywords	0x9c9e	int8u IFD0, 
-		// XPSubject	0x9c9f	int8u IFD0
+		// XPComment	0x9c9c	int8u			IFD0, 
+		// XPAuthor		0x9c9d	int8u			IFD0, 
+		// XPKeywords	0x9c9e	int8u			IFD0, 
+		// XPSubject	0x9c9f	int8u			IFD0
 		console.log(`fsPromise parsed exif data`);
 		console.log(result);
 		//console.log(result.tags[8].value);
@@ -74,6 +107,7 @@ filehandle
 	.catch( (err)=>{
 		console.error(err);
 	});
+*/
 
 /*
 promise
